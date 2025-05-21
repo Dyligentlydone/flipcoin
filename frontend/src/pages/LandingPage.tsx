@@ -60,11 +60,10 @@ function LandingPage() {
 
       <div className="text-center">
         <p className={`text-xl text-gray-800 mb-6 transition-opacity duration-300 ${isFlipping ? 'opacity-0' : 'opacity-100'}`}>
-          Click the coin to enter
+          Flip me to enter
         </p>
       </div>
 
-      <footer className="mt-12 text-gray-500">&copy; 2025 FlipCoin</footer>
     </div>
   );
 }
