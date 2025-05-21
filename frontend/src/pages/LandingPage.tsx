@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import coinImage from '../assets/flip coin (coin).png';
 
@@ -6,6 +6,7 @@ function LandingPage() {
   const navigate = useNavigate();
   const [isFlipping, setIsFlipping] = useState(false);
   const [rotation, setRotation] = useState(0);
+  const coinRef = useRef<HTMLDivElement>(null);
 
   const handleClick = () => {
     if (isFlipping) return;
@@ -15,7 +16,17 @@ function LandingPage() {
     // Start spinning
     let spins = 0;
     const spinInterval = setInterval(() => {
-      setRotation(prev => (prev + 36) % 360);
+      spins++;
+      const angle = (spins * 36) % 360;
+      const upDown = Math.sin(angle * Math.PI / 180) * 50; // Increased amplitude for more dramatic effect
+      
+      if (coinRef.current) {
+        coinRef.current.style.transform = `
+          perspective(1000px) 
+          rotateX(${angle}deg) 
+          translateY(${upDown}px)
+        `;
+      }
       spins++;
       if (spins > 10) { // Reduced number of spins for quicker transition
         clearInterval(spinInterval);
@@ -31,9 +42,11 @@ function LandingPage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-white">
       
       <div 
-        className={`mb-8 cursor-pointer transition-all duration-300 ${isFlipping ? '' : 'hover:scale-110 hover:rotate-12'}`}
+        ref={coinRef}
+        className={`coin mb-8 cursor-pointer transition-all duration-300 ${isFlipping ? '' : 'hover:scale-110 hover:rotate-12'}`}
         style={{ 
-          transform: `rotateY(${rotation}deg)`,
+          perspective: '1000px',
+          transformStyle: 'preserve-3d',
           transition: isFlipping ? 'transform 0.05s linear' : 'all 0.3s ease-in-out'
         }}
         onClick={handleClick}
