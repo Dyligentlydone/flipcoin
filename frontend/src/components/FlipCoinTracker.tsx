@@ -159,7 +159,9 @@ function FlipCoinTracker() {
         sx={{
           height: 20,
           borderRadius: 5,
-          backgroundColor: 'rgba(255,255,255,0.8)',
+          backgroundColor: 'rgba(255,255,255,0.0)',
+          zIndex: 2,
+          position: 'relative',
           '& .MuiLinearProgress-bar': {
             backgroundColor: 'rgba(255,179,71,0.8)'
           }
@@ -176,7 +178,8 @@ function FlipCoinTracker() {
           top: -20,
           left: `${progress}%`,
           transform: 'translateX(-50%)',
-          transition: 'left 0.5s ease-in-out'
+          transition: 'left 0.5s ease-in-out',
+          zIndex: 2
         }}
       >
         <img
@@ -208,6 +211,7 @@ function FlipCoinTracker() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              zIndex: 2,
             }}
           >
             {cp === 20000 && (
@@ -233,7 +237,21 @@ function FlipCoinTracker() {
         );
       })}
       
-      <Box sx={{ textAlign: 'center', marginTop: '10px' }}>
+      {/* Section backdrop (covers bar, coin, markers, and numbers) */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: -80,
+          left: '-8%',
+          width: '116%',
+          height: 250,
+          background: '#fdf3e6',
+          opacity: 0.85,
+          borderRadius: 3,
+          zIndex: 1,
+        }}
+      />
+      <Box sx={{ textAlign: 'center', marginTop: '10px', position: 'relative', zIndex: 2 }}>
         <div className="market-cap-text">
           Market Cap: {formatMarketCap(marketCap)}
         </div>
