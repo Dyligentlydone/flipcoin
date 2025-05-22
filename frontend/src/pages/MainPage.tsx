@@ -53,7 +53,7 @@ function MainPage() {
           <div className="text-xs text-gray-400 mt-1">#NFA</div>
         </div>
         {/* Responsive image grid */}
-        <div className="w-full max-w-5xl mx-auto mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 px-4">
+        <div className="w-full max-w-5xl mx-auto mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-2 sm:px-4">
           {[
             {src: img1, alt: 'FlipCoin Photo 1'},
             {src: img2, alt: 'FlipCoin Photo 2'},
@@ -76,7 +76,7 @@ function MainPage() {
               <img
                 src={img.src}
                 alt={img.alt}
-                className="w-full h-40 object-cover hover:opacity-80 transition"
+                className="w-full h-48 object-cover hover:opacity-80 transition"
                 onClick={() => {
                   // Download the image
                   const link = document.createElement('a');
@@ -95,7 +95,7 @@ function MainPage() {
         </div>
       </div>
       {/* Progress Bar at the very bottom */}
-      <div className="w-full flex justify-center fixed left-0 right-0 bottom-0 mb-12 pointer-events-none z-40">
+      <div className="w-full flex justify-center fixed left-0 right-0 bottom-0 mb-12 pointer-events-none z-40 px-2">
         <div className="w-full max-w-3xl pointer-events-auto">
           <div className="h-6 flex items-center justify-center">
             <FlipCoinTracker />
