@@ -47,12 +47,11 @@ function MainPage() {
   </button>
 </div>
       </div>
-      <div className="min-h-screen bg-white/80 flex flex-col items-center justify-end pb-16">
-        <FlipCoinTracker />
-        <div className="mt-6 text-lg text-gray-600 font-medium text-center">
-  Flipping the market one asset at a time
-  <div className="text-xs text-gray-400 mt-1">#NFA</div>
-</div>
+      <div className="min-h-screen bg-white/80 flex flex-col items-center justify-center pb-48">
+        <div className="mt-2 text-lg text-gray-600 font-medium text-center">
+          Flipping the market one asset at a time
+          <div className="text-xs text-gray-400 mt-1">#NFA</div>
+        </div>
         {/* Responsive image grid */}
         <div className="w-full max-w-5xl mx-auto mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 px-4">
           {[
@@ -93,6 +92,14 @@ function MainPage() {
               />
             </div>
           ))}
+        </div>
+      </div>
+      {/* Progress Bar at the very bottom */}
+      <div className="w-full flex justify-center fixed left-0 right-0 bottom-0 mb-12 pointer-events-none z-40">
+        <div className="w-full max-w-3xl pointer-events-auto">
+          <div className="h-6 flex items-center justify-center">
+            <FlipCoinTracker />
+          </div>
         </div>
       </div>
       {/* Signature Tag Image */}
