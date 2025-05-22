@@ -153,9 +153,9 @@ function FlipCoinTracker() {
         sx={{
           height: 20,
           borderRadius: 5,
-          backgroundColor: '#e0e0e0',
+          backgroundColor: 'rgba(255,255,255,0.8)',
           '& .MuiLinearProgress-bar': {
-            backgroundColor: progress > 50 ? '#4caf50' : '#2196f3'
+            backgroundColor: 'rgba(255,179,71,0.8)'
           }
         }}
         role="progressbar"
