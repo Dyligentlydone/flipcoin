@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Box, LinearProgress } from '@mui/material';
 import axios from 'axios';
 import coinImage from '../assets/flip coin (coin).png';
+import img20k from '../assets/20k.png';
+import img200k from '../assets/200k.png';
+import img500k from '../assets/500k.png';
+import img750k from '../assets/750k.png';
+import img1m from '../assets/1m.png';
+import img2m from '../assets/2m.png';
 
 const TOKEN_ADDRESS = 'DezaX4JqtoZ9TdUZ5eGbPtQtpzkQFDERuWUMFgnypump';
 const MAX_MARKET_CAP = 100_000_000; // $100M target for progress bar
@@ -192,13 +198,34 @@ function FlipCoinTracker() {
             key={cp}
             sx={{ 
               position: 'absolute', 
-              top: -40, 
+              top: -70, // raise to fit img above label
               left: `${position}%`, 
               fontSize: '12px',
-              transform: 'translateX(-50%)'
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}
           >
-            {label}
+            {cp === 20000 && (
+              <img src={img20k} alt="20k milestone" style={{ width: 32, height: 'auto', marginBottom: 2 }} />
+            )}
+            {cp === 200000 && (
+              <img src={img200k} alt="200k milestone" style={{ width: 32, height: 'auto', marginBottom: 2 }} />
+            )}
+            {cp === 500000 && (
+              <img src={img500k} alt="500k milestone" style={{ width: 32, height: 'auto', marginBottom: 2 }} />
+            )}
+            {cp === 750000 && (
+              <img src={img750k} alt="750k milestone" style={{ width: 32, height: 'auto', marginBottom: 2 }} />
+            )}
+            {cp === 1000000 && (
+              <img src={img1m} alt="1m milestone" style={{ width: 32, height: 'auto', marginBottom: 2 }} />
+            )}
+            {cp === 2000000 && (
+              <img src={img2m} alt="2m milestone" style={{ width: 32, height: 'auto', marginBottom: 2 }} />
+            )}
+            <span style={{ marginTop: cp === 20000 ? 2 : 0 }}>{label}</span>
           </Box>
         );
       })}
