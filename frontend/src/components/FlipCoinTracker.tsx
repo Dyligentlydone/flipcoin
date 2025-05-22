@@ -6,6 +6,21 @@ import coinImage from '../assets/flip coin (coin).png';
 const TOKEN_ADDRESS = 'DezaX4JqtoZ9TdUZ5eGbPtQtpzkQFDERuWUMFgnypump';
 const MAX_MARKET_CAP = 100_000_000; // $100M target for progress bar
 
+// Format market cap for display
+function formatMarketCap(value: number): string {
+  // Log the raw value to help with debugging
+  console.log('Raw market cap value for formatting:', value);
+  
+  if (value >= 1_000_000_000) {
+    return `$${(value / 1_000_000_000).toFixed(2)}B`;
+  } else if (value >= 1_000_000) {
+    return `$${(value / 1_000_000).toFixed(2)}M`;
+  } else if (value >= 1_000) {
+    return `$${(value / 1_000).toFixed(2)}K`;
+  }
+  return `$${value.toFixed(2)}`;
+}
+
 function FlipCoinTracker() {
   const [marketCap, setMarketCap] = useState(0);
   const checkpoints = [
@@ -26,9 +41,47 @@ function FlipCoinTracker() {
   const nextCheckpoint = checkpoints.find(cp => cp > marketCap) || checkpoints[checkpoints.length - 1];
   const prevCheckpoint = checkpoints[checkpoints.findIndex(cp => cp > marketCap) - 1] || 0;
 
-  // Calculate progress relative to current range
-  const progress = ((marketCap - prevCheckpoint) / (nextCheckpoint - prevCheckpoint)) * 100;
+  // For the progress bar position, we need to use the visual spacing of checkpoints
+  // Calculate where the market cap is between the previous and next checkpoint
+  
+  // Find index of the next checkpoint
+  const nextCheckpointIndex = checkpoints.findIndex(cp => cp > marketCap);
+  const prevCheckpointIndex = nextCheckpointIndex > 0 ? nextCheckpointIndex - 1 : 0;
+  
+  // Get the actual checkpoint values
+  const nextCheckpointValue = nextCheckpointIndex >= 0 ? checkpoints[nextCheckpointIndex] : checkpoints[checkpoints.length - 1];
+  const prevCheckpointValue = prevCheckpointIndex >= 0 ? checkpoints[prevCheckpointIndex] : 0;
+  
+  // Calculate position within checkpoint range (0-100%)
+  const rangePosition = nextCheckpointValue > prevCheckpointValue ?
+    ((marketCap - prevCheckpointValue) / (nextCheckpointValue - prevCheckpointValue)) : 1;
+  
+  // Calculate visual position on the bar (0-100%)
+  // Each checkpoint gets equal visual space regardless of value
+  const visualSegmentWidth = 100 / checkpoints.length;
+  const segmentPosition = prevCheckpointIndex * visualSegmentWidth + (rangePosition * visualSegmentWidth);
+  
+  // Use this for the progress bar
+  const progress = segmentPosition;
+  
+  // Log calculated values for debugging
+  console.log('Position calculation:', {
+    marketCap,
+    prevCheckpointValue,
+    nextCheckpointValue,
+    rangePosition,
+    visualSegmentWidth,
+    segmentPosition,
+    progress
+  });
   const flipSpeed = Math.max(2 - progress / 50, 0.5); // Faster flip at higher market cap
+  
+  // Log the calculated values for debugging
+  console.log('Progress calculation:', {
+    marketCap,
+    maxMarketCap: MAX_MARKET_CAP,
+    progress
+  });
 
   useEffect(() => {
     const supply = 1000000000; // Update this with actual supply
@@ -62,8 +115,12 @@ function FlipCoinTracker() {
           const tokenAmount = parseInt(response.data.outAmount); // How many tokens you get for 1 SOL
           const pricePerToken = 1 / (tokenAmount / 1e9); // Price in SOL per token
           const priceInUsd = pricePerToken * solUsdPrice; // Convert to USD
-          // Calculate market cap (result will be in thousands)
-          const marketCapValue = priceInUsd * 1000000000; // Multiply by total supply
+          // Calculate market cap in USD
+          // The total supply is 1 billion tokens, but we need to divide by 1000 to get the correct scale
+          const marketCapValue = priceInUsd * 1000000; // Scale down by 1000 to match expected value range
+          
+          // For display purposes, we'll use this value directly
+          // For progress bar, we need to ensure it's in the right range (0-100M)
           
           console.log('Calculated values:', {
             tokenAmount,
@@ -73,6 +130,8 @@ function FlipCoinTracker() {
             solPrice: solUsdPrice
           });
           
+          // Log the raw value we're setting as market cap
+          console.log('Setting market cap to:', marketCapValue);
           setMarketCap(marketCapValue);
         } else {
           console.log('Incomplete price data from Jupiter');
@@ -151,7 +210,7 @@ function FlipCoinTracker() {
       
       <Box sx={{ textAlign: 'center', marginTop: '10px' }}>
         <div className="market-cap-text">
-          Market Cap: ${(marketCap / 1000).toLocaleString('en-US', { maximumFractionDigits: 2 })}K
+          Market Cap: {formatMarketCap(marketCap)}
         </div>
       </Box>
     </Box>
