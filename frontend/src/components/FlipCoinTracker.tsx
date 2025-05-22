@@ -162,6 +162,8 @@ function FlipCoinTracker() {
           backgroundColor: 'rgba(255,255,255,0.0)',
           zIndex: 2,
           position: 'relative',
+          border: '1.5px solid #222',
+          boxSizing: 'border-box',
           '& .MuiLinearProgress-bar': {
             backgroundColor: 'rgba(255,179,71,0.8)'
           }
