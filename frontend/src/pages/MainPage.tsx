@@ -47,7 +47,9 @@ function MainPage() {
   </button>
 </div>
       </div>
-      <div className="min-h-screen bg-white/80 flex flex-col items-center justify-center pb-48">
+      {/* Viewport meta tag for mobile safe area support */}
+      <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+      <div className="min-h-screen w-full bg-white/80 flex flex-col items-center justify-center pb-48 pb-[96px]" style={{minHeight: '100dvh'}}>
         <div className="mt-2 text-lg text-gray-600 font-medium text-center">
           Flipping the market one asset at a time
           <div className="text-xs text-gray-400 mt-1">#NFA</div>
