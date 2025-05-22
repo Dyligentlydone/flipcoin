@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import FlipCoinTracker from '../components/FlipCoinTracker';
 import tagImg from '../assets/tag.png';
 import img1 from '../assets/1.jpeg';
@@ -95,6 +96,14 @@ function MainPage() {
             </div>
           ))}
         </div>
+      </div>
+      {/* More Flipping Button (bottom right in content, not sticky) */}
+      <div className="w-full flex justify-end mt-10 mb-8 pr-6">
+        <Link to="/flipping">
+          <button className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-3 px-8 rounded-full shadow-lg text-lg transition-all">
+            More Flipping
+          </button>
+        </Link>
       </div>
       {/* Progress Bar at the very bottom */}
       <div className="w-full flex justify-center fixed left-0 right-0 bottom-0 mb-12 pointer-events-none z-40 px-2">
