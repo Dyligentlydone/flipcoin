@@ -36,16 +36,16 @@ function MainPage() {
   return (
     <>
       <div className="w-full flex items-center justify-center py-6 bg-white/80">
-        <div className="flex items-center gap-2 px-6 py-2 rounded-full bg-white/40 shadow-sm backdrop-blur-sm">
-  <span className="text-gray-800 font-mono text-sm select-all">{tokenAddress}</span>
-  <button
-    onClick={handleCopy}
-    className="ml-2 px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs rounded-full focus:outline-none focus:ring"
-    aria-label="Copy token address"
-  >
-    {copied ? 'Copied!' : 'Copy'}
-  </button>
-</div>
+        <div className="w-full max-w-screen-sm mx-auto flex items-center gap-2 px-3 py-2 rounded-full bg-white/40 shadow-sm backdrop-blur-sm overflow-x-auto whitespace-nowrap">
+          <span className="text-gray-800 font-mono text-sm select-all">{tokenAddress}</span>
+          <button
+            onClick={handleCopy}
+            className="ml-2 px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs rounded-full focus:outline-none focus:ring"
+            aria-label="Copy token address"
+          >
+            {copied ? 'Copied!' : 'Copy'}
+          </button>
+        </div>
       </div>
       {/* Viewport meta tag for mobile safe area support */}
       <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
