@@ -193,14 +193,17 @@ function FlipCoinTracker() {
         const label = cp >= 1000000 ? 
           `$${(cp / 1000000).toFixed(0)}M` : 
           `$${(cp / 1000).toFixed(0)}K`;
+        // Only show major milestones on mobile
+        const isMajor = [20000, 1000000, 100000000].includes(cp);
         return (
           <Box 
             key={cp}
+            className={!isMajor ? 'hidden sm:flex' : ''}
             sx={{ 
               position: 'absolute', 
-              top: -70, // raise to fit img above label
+              top: { xs: -45, sm: -70 },
               left: `${position}%`, 
-              fontSize: '12px',
+              fontSize: { xs: '9px', sm: '12px' },
               transform: 'translateX(-50%)',
               display: 'flex',
               flexDirection: 'column',
@@ -208,22 +211,22 @@ function FlipCoinTracker() {
             }}
           >
             {cp === 20000 && (
-              <img src={img20k} alt="20k milestone" style={{ width: 32, height: 'auto', marginBottom: 2 }} />
+              <img src={img20k} alt="20k milestone" style={{ width: 20, height: 'auto', marginBottom: 2 }} className="sm:w-8" />
             )}
             {cp === 200000 && (
-              <img src={img200k} alt="200k milestone" style={{ width: 32, height: 'auto', marginBottom: 2 }} />
+              <img src={img200k} alt="200k milestone" style={{ width: 20, height: 'auto', marginBottom: 2 }} className="sm:w-8" />
             )}
             {cp === 500000 && (
-              <img src={img500k} alt="500k milestone" style={{ width: 32, height: 'auto', marginBottom: 2 }} />
+              <img src={img500k} alt="500k milestone" style={{ width: 20, height: 'auto', marginBottom: 2 }} className="sm:w-8" />
             )}
             {cp === 750000 && (
-              <img src={img750k} alt="750k milestone" style={{ width: 32, height: 'auto', marginBottom: 2 }} />
+              <img src={img750k} alt="750k milestone" style={{ width: 20, height: 'auto', marginBottom: 2 }} className="sm:w-8" />
             )}
             {cp === 1000000 && (
-              <img src={img1m} alt="1m milestone" style={{ width: 32, height: 'auto', marginBottom: 2 }} />
+              <img src={img1m} alt="1m milestone" style={{ width: 20, height: 'auto', marginBottom: 2 }} className="sm:w-8" />
             )}
             {cp === 2000000 && (
-              <img src={img2m} alt="2m milestone" style={{ width: 32, height: 'auto', marginBottom: 2 }} />
+              <img src={img2m} alt="2m milestone" style={{ width: 20, height: 'auto', marginBottom: 2 }} className="sm:w-8" />
             )}
             <span style={{ marginTop: cp === 20000 ? 2 : 0 }}>{label}</span>
           </Box>
