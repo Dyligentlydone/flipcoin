@@ -41,45 +41,40 @@ function FlipCoinTracker() {
   const nextCheckpoint = checkpoints.find(cp => cp > marketCap) || checkpoints[checkpoints.length - 1];
   const prevCheckpoint = checkpoints[checkpoints.findIndex(cp => cp > marketCap) - 1] || 0;
 
-  // For the progress bar position, we need to use the visual spacing of checkpoints
-  // Calculate where the market cap is between the previous and next checkpoint
+  // For precise visual alignment with the checkpoint labels
+  // We'll calculate the exact visual position to match the labels
   
-  // Find index of the next checkpoint
+  // First, find which checkpoints our value is between
   const nextCheckpointIndex = checkpoints.findIndex(cp => cp > marketCap);
   const prevCheckpointIndex = nextCheckpointIndex > 0 ? nextCheckpointIndex - 1 : 0;
   
   // Get the actual checkpoint values
-  const nextCheckpointValue = nextCheckpointIndex >= 0 ? checkpoints[nextCheckpointIndex] : checkpoints[checkpoints.length - 1];
-  const prevCheckpointValue = prevCheckpointIndex >= 0 ? checkpoints[prevCheckpointIndex] : 0;
+  const nextCheckpointValue = checkpoints[nextCheckpointIndex >= 0 ? nextCheckpointIndex : checkpoints.length - 1];
+  const prevCheckpointValue = checkpoints[prevCheckpointIndex];
   
-  // Calculate position within checkpoint range (0-100%)
-  const rangePosition = nextCheckpointValue > prevCheckpointValue ?
-    ((marketCap - prevCheckpointValue) / (nextCheckpointValue - prevCheckpointValue)) : 1;
+  // Calculate visual position of each checkpoint (matches the labels)
+  const getPosForCheckpoint = (index: number) => ((index + 1) / checkpoints.length) * 100;
+  const nextCheckpointPos = getPosForCheckpoint(nextCheckpointIndex);
+  const prevCheckpointPos = getPosForCheckpoint(prevCheckpointIndex);
   
-  // Calculate visual position on the bar (0-100%)
-  // Each checkpoint gets equal visual space regardless of value
-  const visualSegmentWidth = 100 / checkpoints.length;
-  const segmentPosition = prevCheckpointIndex * visualSegmentWidth + (rangePosition * visualSegmentWidth);
+  // Calculate where we are between the two checkpoints (0-1)
+  const percentBetweenCheckpoints = nextCheckpointValue !== prevCheckpointValue ?
+    (marketCap - prevCheckpointValue) / (nextCheckpointValue - prevCheckpointValue) : 0;
   
-  // Use this for the progress bar
-  const progress = segmentPosition;
+  // Interpolate to get the exact position
+  const progress = prevCheckpointPos + (percentBetweenCheckpoints * (nextCheckpointPos - prevCheckpointPos));
   
-  // Log calculated values for debugging
-  console.log('Position calculation:', {
+  // For the flip speed
+  const flipSpeed = Math.max(2 - progress / 50, 0.5); // Faster flip at higher market cap
+  
+  // Log values for debugging
+  console.log('Checkpoint-based positioning:', {
     marketCap,
     prevCheckpointValue,
     nextCheckpointValue,
-    rangePosition,
-    visualSegmentWidth,
-    segmentPosition,
-    progress
-  });
-  const flipSpeed = Math.max(2 - progress / 50, 0.5); // Faster flip at higher market cap
-  
-  // Log the calculated values for debugging
-  console.log('Progress calculation:', {
-    marketCap,
-    maxMarketCap: MAX_MARKET_CAP,
+    prevCheckpointPos,
+    nextCheckpointPos,
+    percentBetweenCheckpoints,
     progress
   });
 
