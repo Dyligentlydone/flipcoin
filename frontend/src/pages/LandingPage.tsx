@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import coinImage from '../assets/flip coin (coin).png';
+import tagImg from '../assets/tag.png';
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -64,6 +65,29 @@ function LandingPage() {
         </p>
       </div>
 
+      {/* Signature Tag Image */}
+      <a
+        href="https://x.com/dyllwill_?s=21&t=S0JVIEd8tjDNnUp_OTOSzA"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          position: 'fixed',
+          right: 16,
+          bottom: 16,
+          zIndex: 50
+        }}
+      >
+        <img
+          src={tagImg}
+          alt="signature tag"
+          style={{
+            width: 96,
+            opacity: 0.85,
+            transition: 'opacity 0.2s',
+            cursor: 'pointer'
+          }}
+        />
+      </a>
     </div>
   );
 }
